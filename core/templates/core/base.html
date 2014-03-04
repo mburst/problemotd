@@ -1,0 +1,86 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href='http://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'core/css/screen.css' %}" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h1 class="masthead-brand"><a href="/">Problem of the Day</a></h1>
+              {% url 'home' as home %}
+              {% url 'past_problems' as past_problems %}
+              {% url 'suggest' as suggest %}
+              {% url 'about' as about %}
+              <ul class="nav masthead-nav">
+                <li {% if request.get_full_path == home %}class="active"{% endif %}><a href="{{home}}">Home</a></li>
+                <li {% if request.get_full_path == past_problems %}class="active"{% endif %}><a href="{{past_problems}}">Past Problems</a></li>
+                <li {% if request.get_full_path == suggest %}class="active"{% endif %}><a href="{{suggest}}">Suggest Problem</a></li>
+                <li>
+                  <form id="subscribe" method="GET" action="">
+                    <input class="form-control" name="email" type="email" placeholder="Subscribe via e-mail" required>
+                  </form>
+                </li>
+                {#<li {% if request.get_full_path == about %}class="active"{% endif %}><a href="{{about}}">About</a></li>#}
+              </ul>
+            </div>
+          </div>
+
+          <div class="cover">
+            {% if messages %}
+                <ul id="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+            {% block content %}{% endblock %}
+          </div>
+
+          <div class="mastfoot text-center">
+            <div class="inner">
+              <p>Content curated by <a href="http://maxburstein.com">Max Burstein</a></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="{% static 'core/js/global.js' %}"></script>
+  </body>
+</html>

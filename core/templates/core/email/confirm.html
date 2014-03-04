@@ -1,0 +1,12 @@
+{% extends "core/email/base.html" %}
+{% block title %}Confirm Subscription{% endblock %}
+{% block content %}
+	<h1>Problem of the Day</h1>
+	<p>Hi there,</p>
+	<p>Thanks for taking the time to visit <a href="http://problemotd.com">http://problemotd.com</a> and subscribe.</p>
+	<p>Please <a href="http://localhost:8000/confirm/?status={{status}}">Click Here</a> to confirm your subscription or copy and paste the text below into your browser.</p>
+	<p>http://problemotd.com/confirm/?status={{status}}</p>
+	<p>Thanks, have a lovely day.</p>
+	<p><a href="http://twitter.com/maxburstein">Follow @maxburstein on Twitter</a></p>
+{% endblock %}
+{% block footer %}{% endblock %}

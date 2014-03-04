@@ -1,0 +1,255 @@
+/*
+ * Globals
+ */
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+/* Custom default button */
+.btn-default,
+.btn-default:hover,
+.btn-default:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritence from `body` */
+  background-color: #fff;
+  border: 1px solid #fff;
+}
+
+li a {
+  color: #428bca; /* Default bootstrap */
+}
+
+li a:hover {
+  color: #428bca; /* Default bootstrap */
+}
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  background-color: #333;
+  height: 100%;
+}
+body {
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  background: #4c4c4c; /* Old browsers */
+  /*box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
+  background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 10%); /* W3C */
+
+}
+
+button, input, optgroup, select, textarea {
+  color: #000;
+}
+
+pre {
+  word-break: normal;
+  word-wrap: normal;
+}
+
+pre code {
+  white-space: pre;
+}
+
+form {
+  margin-bottom: 10px;
+}
+
+.help-block {
+  color: #999;
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+  display: table;
+  width: 100%;
+  /*height: 100%;
+  min-height: 100%;*/
+}
+.site-wrapper-inner {
+  display: table-cell;
+  vertical-align: top;
+}
+.cover-container {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/*
+ * Header
+ */
+.masthead-brand {
+  margin: 15px 0;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 24px;
+}
+
+.masthead {
+  margin-bottom: 10px;
+}
+
+.masthead-nav > li {
+  display: inline-block;
+}
+.masthead-nav > li {
+  margin-right: 20px;
+  margin-top: 5px;
+}
+.masthead-nav > li:last-child {
+  margin-right: 0;
+}
+.masthead-nav > li > a {
+  padding-right: 0;
+  padding-left: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; /* IE8 proofing */
+  color: rgba(255,255,255,.75);
+  border-bottom: 2px solid transparent;
+}
+.masthead-nav > li > a:hover,
+.masthead-nav > li > a:focus {
+  background-color: transparent;
+  border-bottom-color: rgba(255,255,255,.25);
+}
+.masthead-nav > .active > a,
+.masthead-nav > .active > a:hover,
+.masthead-nav > .active > a:focus {
+  color: #fff;
+  border-bottom-color: #fff;
+}
+
+@media (min-width: 1051px) {
+  .masthead-brand {
+    float: left;
+  }
+  .masthead-nav {
+    float: right;
+  }
+}
+
+
+/*
+ * Cover
+ */
+
+.cover {
+  padding: 0 20px;
+}
+.cover .btn-lg {
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+/* Bootstap .lead style */
+#content p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.4;
+}
+
+@media (min-width: 1050px) {
+  #content p {
+    font-size: 21px;
+  }
+}
+
+/*
+ * Footer
+ */
+
+.mastfoot {
+  color: #999; /* IE8 proofing */
+  color: rgba(255,255,255,.5);
+  margin-top: 30px;
+}
+
+
+/*
+ * Affix and center
+ */
+
+@media (min-width: 1050px) {
+  /* Handle the widths */
+  .masthead,
+  .mastfoot,
+  .cover-container {
+    width: 1000px;
+  }
+}
+
+@media (max-width:1050px) {
+  .masthead {
+    padding: 0 20px;
+  }
+  .mastfoot {
+    float: left;
+    padding: 0 20px;
+  }
+}
+
+/* Messages */
+
+#messages {
+	padding-left: 0px;
+}
+
+	#messages li {
+		font-style: italic;
+		list-style-type: none;
+		font-weight: bold;
+		text-align: center;
+        margin: 20px 0;
+	}
+
+/* Comments */
+
+#commenters {
+	padding-left: 0px;
+}
+
+	#commenters li {
+		list-style-type: none;
+	}
+
+.poster {
+	font-size: 12px;
+	color: #AAAAAA;
+}
+
+.user {
+	color: #31C4F4;
+}
+
+#postcomment ul {
+	padding-left: 0px;
+}
+
+	#postcomment ul li {
+		list-style-type:  none;
+		padding-top: 10px;
+	}
+
+#postcomment label {
+	width: 74px;
+	display: inline-block;
+}
+
+.comment {
+	font-size: 14px;
+	background: #0E0E0E;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	color: #FFFFFF;
+	padding: 10px;
+	margin-bottom: 10px;
+}

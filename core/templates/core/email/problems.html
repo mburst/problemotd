@@ -1,0 +1,9 @@
+{% extends "core/email/base.html" %}
+{% block title %}Problem of the Day{% endblock %}
+{% block content %}
+	<h1>Problem of the Day</h1>
+	{% for problem in problems %}
+        <h2>{{problem.title}}</h2>
+        {{problem.text|safe}}
+    {% endfor %}
+{% endblock %}

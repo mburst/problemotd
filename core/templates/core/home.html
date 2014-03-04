@@ -1,0 +1,53 @@
+{% extends "core/base.html" %}
+{% load humanize %}
+{% block title %}Problem of the Day -- {{problem.title}}{% endblock %}
+{% block content %}
+    <h2>{{problem.title}}</h2>
+    <div id="content">{{problem.text|safe}}</div>
+    {% if comment_tree|length > 0 %}
+    <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#comments">
+      Show/Hide Comments
+    </button>
+    <div id="comments" class="collapse">
+    {% else %}
+    <div id="comments">
+    {% endif %}
+      <h2>Comments:</h2>
+      <form id="postcomment" method="post" action="">
+          <ul>
+              {% if not request.user.is_authenticated %}
+                  <li><label for="id_name">{{form.name.label}}:</label> {{form.name}} <span class="about">(optional)</span></li>
+                  <li><label for="id_website">{{form.website.label}}:</label> {{form.website}} <span class="about">(optional)</span></li>
+              {% endif %}
+              <li>{{form.text}}</li>
+              <li><small><em><a href="http://daringfireball.net/projects/markdown/syntax">(Supports Markdown Syntax)</a></em></small></li>
+              {% if html_captcha %}
+                  <script type="text/javascript">
+                  var RecaptchaOptions = {
+                     theme : 'white'
+                  };
+                  </script>
+                <li>{{html_captcha|safe}}</li>
+              {% endif %}
+              <li><input class="btn btn-default" type="submit" value="Submit Comment" /></li>
+              <li>{{form.ancestor}}</li>
+          </ul>
+          {% csrf_token %}
+      </form>
+      <ul id="commenters">
+          {% for comment in comment_tree %}
+              {% if comment.user %}
+                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;"><p class="poster"><span class="user">{% if comment.user.get_full_name %}{{comment.user.get_full_name}}{% else %}{{comment.user.username}}{% endif %}</span> - {{comment.date|naturaltime}}</p><p>{{comment.text|safe}}</p><p><a href="" class="reply">reply</a></p></li>
+              {% elif comment.name %}
+                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;"><p class="poster">{% if comment.website %}<a href="{{comment.website}}">{{comment.name}}</a>{% else %}{{comment.name}}{% endif %} - {{comment.date|naturaltime}}</p><p>{{comment.text|safe}}</p><p><a href="" class="reply">reply</a></p></li>
+              {% elif comment.deleted %}
+                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;">[Deleted] - {{comment.date|naturaltime}}<p>This comment was removed</p></li>
+              {% else %}
+                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;"><p class="poster">Anonymous - {{comment.date|naturaltime}}</p><p>{{comment.text|safe}}</p><p><a href="" class="reply">reply</a></p></li>
+              {% endif %}
+          {% empty %}
+              <li>There are currently no comments. You can be first!</li>
+          {% endfor %}
+      </ul>
+    </div>
+{% endblock %}

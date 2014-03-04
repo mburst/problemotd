@@ -1,0 +1,13 @@
+{% extends "core/base.html" %}
+{% block title %}Problem of the Day -- Past Problems{% endblock %}
+{% block content %}
+    <h2>Suggest a Problem</h2>
+    <form method="POST" action="">
+        <div class="form-group">
+            <textarea name="text" class="form-control" rows="6"></textarea>
+            <p class="help-block"><em>Feel free to include attribution details such as a Twitter handle so you can get credit for submitting the problem.</em></p>
+        </div>
+        {% csrf_token %}
+        <input type="submit">
+    </form>
+{% endblock %}

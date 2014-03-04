@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% block title %}Problem of the Day - Update Subscription{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <form method="POST" action="">
+                <input type="hidden" name="md_email" value="{{md_email}}">
+                {% csrf_token %}
+                {% if weekly %}
+                    <input class="btn btn-primary btn-lg" type="submit" value="Change to daily subscription">
+                {% else %}
+                    <input class="btn btn-primary btn-lg" type="submit" value="Change to weekly subscription">
+                {% endif %}
+            </form>
+        </div>
+        
+        <div class="col-md-6 text-center">
+            <form method="POST" action="">
+                <input type="hidden" name="md_email" value="{{md_email}}">
+                <input type="hidden" name="unsub" value="True">
+                {% csrf_token %}
+                <input class="btn btn-danger btn-lg" type="submit" value="Unsubscribe">
+            </form>
+        </div>
+    </div>
+{% endblock %}
