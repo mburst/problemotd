@@ -241,6 +241,10 @@ form {
 	display: inline-block;
 }
 
+#postcomment textarea {
+  max-width: 400px;
+}
+
 .comment {
 	font-size: 14px;
 	background: #0E0E0E;
@@ -250,4 +254,8 @@ form {
 	color: #FFFFFF;
 	padding: 10px;
 	margin-bottom: 10px;
+}
+
+.addthis_toolbox {
+  margin-bottom: 20px;
 }

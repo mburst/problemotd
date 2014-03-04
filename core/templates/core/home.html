@@ -32,7 +32,7 @@
                   <li><label for="id_name">{{form.name.label}}:</label> {{form.name}} <span class="about">(optional)</span></li>
                   <li><label for="id_website">{{form.website.label}}:</label> {{form.website}} <span class="about">(optional)</span></li>
               {% endif %}
-              <li>{{form.text}}</li>
+              <li><textarea name="text" name="text" class="form-control" rows="6"></textarea></li>
               <li><small><em><a href="http://daringfireball.net/projects/markdown/syntax">(Supports Markdown Syntax)</a></em></small></li>
               {% if html_captcha %}
                   <script type="text/javascript">

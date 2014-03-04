@@ -90,7 +90,7 @@ def home(request):
         success = save_comment(request, form, problem)
 
         # Save name and website
-        if success:
+        if success and request.user.is_anonymous():
             form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
 
     #Users don't need to pass a captcha
@@ -113,7 +113,7 @@ def problem(request, slug=None):
         success = save_comment(request, form, problem)
 
         # Save name and website
-        if success:
+        if success and request.user.is_anonymous():
             form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
 
     #Users don't need to pass a captcha

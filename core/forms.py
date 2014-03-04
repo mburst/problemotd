@@ -10,7 +10,6 @@ class ProblemSuggestionForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     ancestor = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'ancestor'}), required=False)
-    text = forms.CharField(widget=forms.Textarea(attrs={'cols': '65', 'rows': '6'}))
 
     class Meta:
         model = Comment
