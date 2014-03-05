@@ -34,7 +34,10 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h1 class="masthead-brand"><a href="/">Problem of the Day</a></h1>
+              <h1 class="masthead-brand">
+                <a href="/">Problem of the Day</a><br>
+                <span>A new programming or logic puzzle every Mon-Fri</span>
+              </h1>
               {% url 'home' as home %}
               {% url 'past_problems' as past_problems %}
               {% url 'suggest' as suggest %}
