@@ -22,7 +22,7 @@ class Command(BaseCommand):
             if problem and daily_subscribers:
                 msg = EmailMultiAlternatives(
                     subject="Problem of the Day: " + str(today),
-                    from_email="no-reply@problemotd.com",
+                    from_email="Problem of the Day <no-reply@problemotd.com>",
                     to=daily_subscribers
                 )
                 msg.attach_alternative(template.render(Context({'problems': problem})), "text/html")
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                 if problems and weekly_subscribers:
                     msg = EmailMultiAlternatives(
                         subject="Problem of the Day: Week of " + str(monday),
-                        from_email="no-reply@problemotd.com",
+                        from_email="Problem of the Day <no-reply@problemotd.com>",
                         to=weekly_subscribers
                     )
                     msg.attach_alternative(template.render(Context({'problems': problems})), "text/html")

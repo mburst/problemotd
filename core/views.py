@@ -166,7 +166,7 @@ def subscribe(request):
                 template = get_template('core/email/confirm.html')
                 msg = EmailMultiAlternatives(
                     subject="Problem of the Day Subscription Confirmation",
-                    from_email="no-reply@problemotd.com",
+                    from_email="Problem of the Day <no-reply@problemotd.com>",
                     to=[obj.email]
                 )
                 msg.attach_alternative(template.render(Context({'status': obj.status})), "text/html")
