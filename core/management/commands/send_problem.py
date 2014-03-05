@@ -29,7 +29,7 @@ class Command(BaseCommand):
                 msg.send(fail_silently=True)
 
             #Send weekly on Friday (4)
-            if today.weekday() == 1:
+            if today.weekday() == 2:
                 monday = today-timedelta(days=5)
                 problems = Problem.objects.filter(date__range=(monday, today))
                 if problems and weekly_subscribers:
