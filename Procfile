@@ -1,1 +1,1 @@
-web: newrelic-admin run-program python tornadows.py --port=$PORT
+web: python tornadows.py --port=$PORT
