@@ -2,8 +2,10 @@ from core.models import Problem
 
 from django.contrib.syndication.views import Feed
 from django.utils.feedgenerator import Atom1Feed
+from django.conf import settings
 
-from datetime import date
+from datetime import date, time, datetime
+from pytz import timezone
 
 
 class rss_feed(Feed):
@@ -19,6 +21,9 @@ class rss_feed(Feed):
 
     def item_description(self, item):
         return item.text
+
+    def item_pubdate(self, item):
+        return datetime.combine(item.date, time(tzinfo=timezone(settings.TIME_ZONE)))
 
 
 class atom_feed(rss_feed):
