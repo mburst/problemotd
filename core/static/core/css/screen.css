@@ -19,11 +19,11 @@ a:hover {
   border: 1px solid #fff;
 }
 
-li a {
+li a, #content a {
   color: #428bca; /* Default bootstrap */
 }
 
-li a:hover {
+li a:hover, #content a:hover {
   color: #428bca; /* Default bootstrap */
 }
 
