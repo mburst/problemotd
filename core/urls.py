@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from django.views.generic import TemplateView
+from core.feeds import rss_feed, atom_feed
 
 urlpatterns = patterns('core.views',
     url(r'^$', 'home', name='home'),
@@ -9,4 +9,9 @@ urlpatterns = patterns('core.views',
     url(r'^update_subscription/$', 'update_subscription', name='update_subscription'),
     url(r'^suggest/$', 'suggest', name='suggest'),
     url(r'^past/$', 'past_problems', name='past_problems'),
+)
+
+urlpatterns += patterns('',
+    url(r'^rss/$', rss_feed()),
+    url(r'^atom/$', atom_feed()),
 )

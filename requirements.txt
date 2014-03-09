@@ -8,7 +8,6 @@ django-pylibmc-sasl==0.2.4
 djorm-ext-pgarray==0.10
 djrill==0.9.0
 gunicorn==18.0
-newrelic==2.14.0.11
 psycopg2==2.5.2
 pylibmc==1.2.3
 recaptcha-client==1.0.6
