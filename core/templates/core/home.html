@@ -16,6 +16,10 @@
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f6e35d33df7f53a"></script>
     <!-- AddThis Button END -->
     
+    {% if request.get_full_path == home %}
+    <p class="small">Permalink: http://problemotd.com{{problem.get_absolute_url}}</p>
+    {% endif %}
+    
     {% if comment_tree|length > 0 %}
     <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#comments">
       Show/Hide Comments

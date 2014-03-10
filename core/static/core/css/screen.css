@@ -56,6 +56,11 @@ pre code {
   white-space: pre;
 }
 
+code {
+  display: block;
+  overflow: auto;
+}
+
 form {
   margin-bottom: 10px;
 }
