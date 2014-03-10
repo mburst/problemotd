@@ -32,4 +32,8 @@ $(document).ready(function(){
         $(this).parent().append(form);
         $(this).remove();
     });
+    
+    $("#shcomments").on('click', function(){
+        $("#comments").toggle(1000);
+    })
 });
