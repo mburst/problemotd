@@ -28,7 +28,7 @@
     <div id="comments">
     {% endif %}
       <h2>Comments:</h2>
-      <form id="postcomment" method="post" action="">
+      <form id="postcomment" method="post" action="{{problem.get_absolute_url}}">
           <ul>
               {% if not request.user.is_authenticated %}
                   <li><label for="id_name">{{form.name.label}}:</label> {{form.name}} <span class="about">(optional)</span></li>
