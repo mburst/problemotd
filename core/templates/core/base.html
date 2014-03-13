@@ -51,7 +51,7 @@
                 <li {% if request.get_full_path == past_problems %}class="active"{% endif %}><a href="{{past_problems}}">Past Problems</a></li>
                 <li {% if request.get_full_path == suggest %}class="active"{% endif %}><a href="{{suggest}}">Suggest Problem</a></li>
                 <li>
-                  <form id="subscribe" method="GET" action="">
+                  <form id="subscribe" method="GET" action="" class="form-inline">
                     <input class="form-control" name="email" type="email" placeholder="Subscribe via e-mail" required>
                   </form>
                 </li>
