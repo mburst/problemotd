@@ -11,7 +11,7 @@ from core.forms import *
 from datetime import date
 from recaptcha.client import captcha
 import socket
-import markdown
+import misaka
 
 
 def save_comment(request, form, problem):
@@ -24,7 +24,7 @@ def save_comment(request, form, problem):
 
     if form.is_valid() and pass_captcha:
         form2 = form.save(commit=False)
-        form2.text = markdown.markdown(form2.text, safe_mode='escape')
+        form2.text = misaka.html(form2.text, extensions=misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_FENCED_CODE | misaka.EXT_AUTOLINK | misaka.EXT_STRIKETHROUGH | misaka.EXT_SPACE_HEADERS | misaka.EXT_SUPERSCRIPT, render_flags=misaka.HTML_ESCAPE)
         if form['ancestor'].value() == '':
             form2.user = request.user if request.user.is_authenticated() else None
             form2.path = []
