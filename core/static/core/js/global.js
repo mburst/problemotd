@@ -27,10 +27,12 @@ $(document).ready(function(){
     
     $("#commenters").on("click", ".reply", function(event){
         event.preventDefault();
-        var form = $("#postcomment").clone(true);
-        form.find('.ancestor').val($(this).parent().parent().attr('id'));
-        $(this).parent().append(form);
-        $(this).remove();
+        var self = $(this).parent();
+        if (self.siblings("form").length == 0) {
+            var form = $("#postcomment").clone(true);
+            form.find('.ancestor').val(self.parent().attr('id'));
+            self.after(form);
+        }
     });
     
     $("#shcomments").on('click', function(){

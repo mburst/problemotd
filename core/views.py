@@ -84,49 +84,57 @@ def save_comment(request, form, problem):
 
 
 def home(request):
+    show_comments = request.GET.get('show')
     problem = Problem.objects.filter(date__lte=date.today())[0]
     form = CommentForm(request.POST or None)
     if request.method == 'POST':
         success = save_comment(request, form, problem)
 
         # Save name and website
-        if success and request.user.is_anonymous():
-            form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
+        if success:
+            show_comments = True
+            if request.user.is_anonymous():
+                form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
 
     #Users don't need to pass a captcha
     html_captcha = ''
     if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
         html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
-    comment_tree = Comment.objects.select_related('user').filter(problem=problem, deleted=False, spam=False).order_by('path')
+    comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path')
 
     return render(request, 'core/home.html', {'problem': problem,
                                               'comment_tree': comment_tree,
                                               'form': form,
                                               'html_captcha': html_captcha,
-                                              'request': request})
+                                              'request': request,
+                                              'show_comments': show_comments})
 
 
 def problem(request, slug=None):
+    show_comments = request.GET.get('show')
     problem = get_object_or_404(Problem, slug=slug)
     form = CommentForm(request.POST or None)
     if request.method == 'POST':
         success = save_comment(request, form, problem)
 
         # Save name and website
-        if success and request.user.is_anonymous():
-            form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
+        if success:
+            show_comments = True
+            if request.user.is_anonymous():
+                form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
 
     #Users don't need to pass a captcha
     html_captcha = ''
     if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
         html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
-    comment_tree = Comment.objects.select_related('user').filter(problem=problem, deleted=False, spam=False).order_by('path')
+    comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path')
 
     return render(request, 'core/home.html', {'problem': problem,
                                               'comment_tree': comment_tree,
                                               'form': form,
                                               'html_captcha': html_captcha,
-                                              'request': request})
+                                              'request': request,
+                                              'show_comments': show_comments})
 
 
 def past_problems(request):

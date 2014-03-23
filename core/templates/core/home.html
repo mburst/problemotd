@@ -23,7 +23,7 @@
     <button id="shcomments" type="button" class="btn btn-primary">
       Show/Hide Comments
     </button>
-    <div id="comments" class="collapse">
+    <div id="comments" {% if not show_comments %}class="collapse"{% endif %}>
     {% else %}
     <div id="comments">
     {% endif %}
@@ -51,15 +51,17 @@
       </form>
       <ul id="commenters">
           {% for comment in comment_tree %}
+              <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;">
               {% if comment.user %}
-                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;"><p class="poster"><span class="user">{% if comment.user.get_full_name %}{{comment.user.get_full_name}}{% else %}{{comment.user.username}}{% endif %}</span> - {{comment.date|naturaltime}}</p>{{comment.text|safe}}<p><a href="" class="reply">reply</a></p></li>
+                  <p class="poster"><span class="user">{% if comment.user.get_full_name %}{{comment.user.get_full_name}}{% else %}{{comment.user.username}}{% endif %}</span> - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
               {% elif comment.name %}
-                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;"><p class="poster">{% if comment.website %}<a href="{{comment.website}}">{{comment.name}}</a>{% else %}{{comment.name}}{% endif %} - {{comment.date|naturaltime}}</p>{{comment.text|safe}}<p><a href="" class="reply">reply</a></p></li>
+                  <p class="poster">{% if comment.website %}<a href="{{comment.website}}">{{comment.name}}</a>{% else %}{{comment.name}}{% endif %} - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
               {% elif comment.deleted %}
-                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;">[Deleted] - {{comment.date|naturaltime}}<p>This comment was removed</p></li>
+                  [Deleted] - {{comment.date|naturaltime}}<p>This comment was removed</p></li>
               {% else %}
-                  <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;"><p class="poster">Anonymous - {{comment.date|naturaltime}}</p>{{comment.text|safe}}<p><a href="" class="reply">reply</a></p></li>
+                  <p class="poster">Anonymous - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
               {% endif %}
+              <p class="helpers"><a href="" class="reply">reply</a> <a class="" href="http://problemotd.com{{problem.get_absolute_url}}?show=1#{{comment.id}}">permalink</a></p></li>
           {% empty %}
               <li>There are currently no comments. You can be first!</li>
           {% endfor %}

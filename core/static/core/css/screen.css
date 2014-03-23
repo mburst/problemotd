@@ -228,13 +228,23 @@ form {
 		list-style-type: none;
 	}
 
-.poster {
+#commenters .poster {
 	font-size: 12px;
 	color: #AAAAAA;
 }
 
-.user {
+#commenters .user {
 	color: #31C4F4;
+}
+
+#commenters .helpers {
+  margin-top: 20px;
+  font-size: 12px;
+}
+
+#commenters .helpers a {
+  color: #7E7E7E;
+  margin-right: 5px;
 }
 
 #postcomment ul {
