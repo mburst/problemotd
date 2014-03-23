@@ -38,9 +38,7 @@ body {
 }
 body {
   color: #fff;
-  background: #4c4c4c; /* Old browsers */
   background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 10%); /* W3C */
-
 }
 
 button, input, optgroup, select, textarea {
@@ -108,12 +106,12 @@ form {
 }
 .masthead-nav > li {
   margin-right: 20px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .masthead-nav > li:last-child {
   margin-right: 0;
 }
-.masthead-nav > li > a {
+.masthead-nav li a {
   padding-right: 0;
   padding-left: 0;
   font-size: 16px;
@@ -121,9 +119,12 @@ form {
   color: #fff; /* IE8 proofing */
   color: rgba(255,255,255,.75);
   border-bottom: 2px solid transparent;
+  padding-bottom: 5px;
+  text-decoration: none;
+  display: inline;
 }
-.masthead-nav > li > a:hover,
-.masthead-nav > li > a:focus {
+.masthead-nav li > a:hover,
+.masthead-nav li > a:focus {
   background-color: transparent;
   border-bottom-color: rgba(255,255,255,.25);
 }
@@ -143,6 +144,20 @@ form {
   }
 }
 
+/*sub menu*/
+.masthead-nav li ul {
+  display:none;
+  position: absolute;
+  list-style-type: none;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%); /* W3C */
+  padding: 10px;
+  left: -10px;
+  width: 130px;
+}
+
+.masthead-nav li:hover ul {
+  display:block;
+}
 
 /*
  * Cover

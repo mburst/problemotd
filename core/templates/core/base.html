@@ -45,20 +45,25 @@
                 <a href="/">Problem of the Day</a><br>
                 <span>A new programming or logic puzzle every Mon-Fri</span>
               </h1>
-              {% url 'home' as home %}
               {% url 'past_problems' as past_problems %}
               {% url 'suggest' as suggest %}
-              {% url 'about' as about %}
               <ul class="nav masthead-nav">
-                <li {% if request.get_full_path == home %}class="active"{% endif %}><a href="{{home}}">Home</a></li>
                 <li {% if request.get_full_path == past_problems %}class="active"{% endif %}><a href="{{past_problems}}">Past Problems</a></li>
-                <li {% if request.get_full_path == suggest %}class="active"{% endif %}><a href="{{suggest}}">Suggest Problem</a></li>
+                <li {% if request.get_full_path == suggest %}class="active"{% endif %}><a href="{{suggest}}">Suggest</a></li>
+                {% if not request.user.is_authenticated %}
+                <li {% if request.get_full_path == profile %}class="active"{% endif %}><a href="{{profile}}">{{request.user.username}}</a> <b class="caret"></b>
+                  <ul>
+                    <li><a href="{{logout}}">Logout</a></li>
+                  </ul>
+                </li>
+                {% else %}
+                <li {% if request.get_full_path == login %}class="active"{% endif %}><a href="{{login}}">Login</a></b>
+                {% endif %}
                 <li>
                   <form id="subscribe" method="GET" action="" class="form-inline">
                     <input class="form-control" name="email" type="email" placeholder="Subscribe via e-mail" required>
                   </form>
                 </li>
-                {#<li {% if request.get_full_path == about %}class="active"{% endif %}><a href="{{about}}">About</a></li>#}
               </ul>
             </div>
           </div>
