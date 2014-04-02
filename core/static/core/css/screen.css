@@ -265,6 +265,11 @@ form {
   max-width: 400px;
 }
 
+#preview {
+  display: none;
+  margin-top: 10px;
+}
+
 .comment {
 	font-size: 14px;
 	background: #0E0E0E;

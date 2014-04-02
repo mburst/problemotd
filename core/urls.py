@@ -9,6 +9,7 @@ urlpatterns = patterns('core.views',
     url(r'^update_subscription/$', 'update_subscription', name='update_subscription'),
     url(r'^suggest/$', 'suggest', name='suggest'),
     url(r'^past/$', 'past_problems', name='past_problems'),
+    url(r'^preview/$', 'preview', name='preview'),
 )
 
 urlpatterns += patterns('',
