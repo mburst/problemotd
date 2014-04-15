@@ -82,6 +82,9 @@ def save_comment(request, form, problem):
 
     return False
 
+def preview(request):
+    return HttpResponse(misaka.html(request.GET.get('text'), extensions=misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_FENCED_CODE | misaka.EXT_AUTOLINK | misaka.EXT_STRIKETHROUGH | misaka.EXT_SPACE_HEADERS | misaka.EXT_SUPERSCRIPT, render_flags=misaka.HTML_ESCAPE))
+
 
 def home(request):
     show_comments = request.GET.get('show')

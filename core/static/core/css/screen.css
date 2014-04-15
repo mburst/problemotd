@@ -172,7 +172,7 @@ form {
 }
 
 /* Bootstap .lead style */
-#content p {
+#content p, #content ul {
   margin-bottom: 20px;
   font-size: 16px;
   font-weight: 200;
@@ -180,7 +180,7 @@ form {
 }
 
 @media (min-width: 1050px) {
-  #content p {
+  #content p, #content ul {
     font-size: 18px;
   }
 }
@@ -278,6 +278,11 @@ form {
 
 #postcomment textarea {
   max-width: 400px;
+}
+
+#preview {
+  display: none;
+  margin-top: 10px;
 }
 
 .comment {

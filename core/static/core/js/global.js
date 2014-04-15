@@ -30,6 +30,7 @@ $(document).ready(function(){
         var self = $(this).parent();
         if (self.siblings("form").length == 0) {
             var form = $("#postcomment").clone(true);
+            form.find("#preview").html('');
             form.find('.ancestor').val(self.parent().attr('id'));
             self.after(form);
         }
@@ -37,5 +38,27 @@ $(document).ready(function(){
     
     $("#shcomments").on('click', function(){
         $("#comments").toggle(1000);
-    })
+    });
+    
+    $(".preview").on('click', function(){
+        submitting = true;
+        
+        var parent = $(this).parent().parent();
+        
+        $.ajax({
+            url: '/preview/',
+            data: {'text': parent.find("textarea").val()},
+            success: function(data){
+                parent.find("#preview").show();
+                parent.find("#preview").html(data);
+                parent.find("#preview pre code").each(function(i, e) {hljs.highlightBlock(e)});
+            },
+            error: function(data){
+                alert(data.responseText);
+            }
+        }).done(function(){
+            $("body").css("cursor", "");
+            submitting = false;
+        });
+    });
 });
