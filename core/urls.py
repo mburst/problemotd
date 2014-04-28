@@ -10,6 +10,7 @@ urlpatterns = patterns('core.views',
     url(r'^suggest/$', 'suggest', name='suggest'),
     url(r'^past/$', 'past_problems', name='past_problems'),
     url(r'^preview/$', 'preview', name='preview'),
+    url(r'^login/$', 'login', name='login'),
 )
 
 urlpatterns += patterns('',

@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context
 from django.template.loader import get_template
+from django.contrib.auth import logout
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
@@ -103,7 +104,7 @@ def home(request):
     html_captcha = ''
     if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
         html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
-    comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path')
+    comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path').extra(select={'provider': 'SELECT provider FROM social_auth_usersocialauth WHERE social_auth_usersocialauth.user_id = core_comment.user_id'})
 
     return render(request, 'core/home.html', {'problem': problem,
                                               'comment_tree': comment_tree,
@@ -224,3 +225,10 @@ def update_subscription(request):
     else:
         md_email = request.GET.get('md_email')
         return render(request, 'core/update_subscription.html', {'md_email': md_email, 'weekly': subscriber.weekly})
+    
+def login(request):
+    return render(request, 'core/login.html', {'next': request.GET.get('next')})
+    
+def logout(request):
+    logout(request)
+    return redirect('core.views.home')

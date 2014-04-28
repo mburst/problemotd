@@ -53,9 +53,24 @@
           {% for comment in comment_tree %}
               <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;">
               {% if comment.user %}
-                  <p class="poster"><span class="user">{% if comment.user.get_full_name %}{{comment.user.get_full_name}}{% else %}{{comment.user.username}}{% endif %}</span> - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
+                  <p class="poster">
+                    <span class="user">
+                      {% if comment.provider == 'github' %}
+                        <a href="https://github.com/{{comment.user.username}}"> 
+                      {% endif %}
+                      {% if comment.user.get_full_name %}
+                        {{comment.user.get_full_name}}
+                      {% else %}
+                        {{comment.user.username}}
+                      {% endif %}
+                      {% if comment.provider == 'github' %}
+                        </a>  
+                      {% endif %}
+                    </span>
+                  - {{comment.date|naturaltime}}</p>
+                  {{comment.text|safe}}
               {% elif comment.name %}
-                  <p class="poster">{% if comment.website %}<a href="{{comment.website}}">{{comment.name}}</a>{% else %}{{comment.name}}{% endif %} - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
+                  <p class="poster">{{comment.name}} - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
               {% elif comment.deleted %}
                   [Deleted] - {{comment.date|naturaltime}}<p>This comment was removed</p></li>
               {% else %}

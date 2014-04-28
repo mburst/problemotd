@@ -12,6 +12,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Press+Start+2P">
@@ -47,17 +48,19 @@
               </h1>
               {% url 'past_problems' as past_problems %}
               {% url 'suggest' as suggest %}
+              {% url 'login' as login %}
+              {% url 'logout' as logout %}
               <ul class="nav masthead-nav">
                 <li {% if request.get_full_path == past_problems %}class="active"{% endif %}><a href="{{past_problems}}">Past Problems</a></li>
                 <li {% if request.get_full_path == suggest %}class="active"{% endif %}><a href="{{suggest}}">Suggest</a></li>
-                {% if not request.user.is_authenticated %}
-                <li {% if request.get_full_path == profile %}class="active"{% endif %}><a href="{{profile}}">{{request.user.username}}</a> <b class="caret"></b>
+                {% if request.user.is_authenticated %}
+                <li {% if request.get_full_path == profile %}class="active"{% endif %}><span>{{request.user.username}}</span> <b class="caret"></b>
                   <ul>
                     <li><a href="{{logout}}">Logout</a></li>
                   </ul>
                 </li>
                 {% else %}
-                <li {% if request.get_full_path == login %}class="active"{% endif %}><a href="{{login}}">Login</a></b>
+                <li {% if request.get_full_path == login %}class="active"{% endif %}><a href="{{login}}?next={{request.get_full_path}}">Login</a></b>
                 {% endif %}
                 <li>
                   <form id="subscribe" method="GET" action="" class="form-inline">
