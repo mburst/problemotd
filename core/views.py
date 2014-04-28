@@ -131,7 +131,7 @@ def problem(request, slug=None):
     html_captcha = ''
     if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
         html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
-    comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path')
+    comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path').extra(select={'provider': 'SELECT provider FROM social_auth_usersocialauth WHERE social_auth_usersocialauth.user_id = core_comment.user_id'})
 
     return render(request, 'core/home.html', {'problem': problem,
                                               'comment_tree': comment_tree,
