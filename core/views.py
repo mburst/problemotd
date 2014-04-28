@@ -7,6 +7,7 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseServerError
+from django.utils.http import is_safe_url
 from core.models import *
 from core.forms import *
 from datetime import date
@@ -227,7 +228,12 @@ def update_subscription(request):
         return render(request, 'core/update_subscription.html', {'md_email': md_email, 'weekly': subscriber.weekly})
     
 def login(request):
-    return render(request, 'core/login.html', {'next': request.GET.get('next')})
+    next = request.GET.get('next', '/')
+    if is_safe_url(next, request.get_host()):
+        if request.user.is_authenticated():
+            return redirect(request.GET.get('next', '/'))
+        return render(request, 'core/login.html', {'next': request.GET.get('next', '/')})
+    return redirect('core.views.home')
     
 def logout(request):
     logout(request)
