@@ -54,7 +54,7 @@
                 <li {% if request.get_full_path == past_problems %}class="active"{% endif %}><a href="{{past_problems}}">Past Problems</a></li>
                 <li {% if request.get_full_path == suggest %}class="active"{% endif %}><a href="{{suggest}}">Suggest</a></li>
                 {% if request.user.is_authenticated %}
-                <li {% if request.get_full_path == profile %}class="active"{% endif %}><span>{{request.user.username}}</span> <b class="caret"></b>
+                <li {% if request.get_full_path == profile %}class="active"{% endif %}><span>{{request.user.username|truncatechars:15}}</span> <b class="caret"></b>
                   <ul>
                     <li><a href="{{logout}}">Logout</a></li>
                   </ul>
