@@ -59,6 +59,10 @@ code {
   overflow: auto;
 }
 
+th, td {
+  padding: 7px;
+}
+
 form {
   margin-bottom: 10px;
 }
