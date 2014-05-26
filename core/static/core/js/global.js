@@ -1,4 +1,28 @@
 $(document).ready(function(){
+    $.ajaxSetup({ 
+        beforeSend: function(xhr, settings) {
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie != '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+            }
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                // Only send the token to relative URLs i.e. locally.
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        } 
+   });
+    
     var submitting = false;
     
     $("#subscribe").on('submit', function(event){
@@ -60,5 +84,33 @@ $(document).ready(function(){
             $("body").css("cursor", "");
             submitting = false;
         });
+    });
+    
+    $(".delete").on('click', function(e){
+        e.preventDefault();
+        
+        if (confirm('Are you sure you want to delete this comment?')) {
+            submitting = true;
+            
+            var parent = $(this).parent().parent();
+            
+            $.ajax({
+                url: $(this).attr('href'),
+                type: 'POST',
+                success: function(data){
+                    if (data == 'removed') {
+                        parent.hide('slow', function(){ parent.remove(); });
+                    } else {
+                        parent.html("[Deleted]<p>This comment was removed</p>");
+                    }
+                },
+                error: function(data){
+                    alert(data.responseText);
+                }
+            }).done(function(){
+                $("body").css("cursor", "");
+                submitting = false;
+            });
+        }
     });
 });

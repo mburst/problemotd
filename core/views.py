@@ -87,6 +87,18 @@ def save_comment(request, form, problem):
 def preview(request):
     return HttpResponse(misaka.html(request.GET.get('text'), extensions=misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_FENCED_CODE | misaka.EXT_AUTOLINK | misaka.EXT_STRIKETHROUGH | misaka.EXT_SPACE_HEADERS | misaka.EXT_SUPERSCRIPT, render_flags=misaka.HTML_ESCAPE))
 
+def delete_comment(request, comment_id=None):
+    if request.is_ajax() and comment_id:
+        comment = Comment.objects.get(id=comment_id)
+        if request.user == comment.user or request.user.is_superuser:
+            if comment.has_children():
+                comment.deleted = True
+                comment.save()
+                return HttpResponse('deleted')
+            else:
+                comment.delete()
+                return HttpResponse('removed')
+    return HttpResponseBadRequest('Error deleting comment. Please make sure you\'re logged in')
 
 def home(request):
     show_comments = request.GET.get('show')
@@ -95,11 +107,11 @@ def home(request):
     if request.method == 'POST':
         success = save_comment(request, form, problem)
 
-        # Save name and website
+        # Save name
         if success:
             show_comments = True
             if request.user.is_anonymous():
-                form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
+                form = CommentForm(initial={'name': form.data['name']})
 
     #Users don't need to pass a captcha
     html_captcha = ''
@@ -122,11 +134,11 @@ def problem(request, slug=None):
     if request.method == 'POST':
         success = save_comment(request, form, problem)
 
-        # Save name and website
+        # Save name
         if success:
             show_comments = True
             if request.user.is_anonymous():
-                form = CommentForm(initial={'name': form.data['name'], 'website': form.data['website']})
+                form = CommentForm(initial={'name': form.data['name']})
 
     #Users don't need to pass a captcha
     html_captcha = ''

@@ -1,4 +1,5 @@
 from django.db import models
+from django.db import connection
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from djorm_pgarray.fields import ArrayField
@@ -55,3 +56,9 @@ class Comment(models.Model):
     @property
     def indent(self):
         return (len(self.path)-1)*2
+    
+    def has_children(self):
+        #This can be done through the ORM when 1.7 releases with path__contains
+        cursor = connection.cursor()
+        cursor.execute("SELECT COUNT(*) FROM core_comment WHERE path @> %s", [self.path])
+        return cursor.fetchone()[0] > 1

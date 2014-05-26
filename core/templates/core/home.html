@@ -15,9 +15,7 @@
     </div>
     <!-- AddThis Button END -->
     
-    {% if request.get_full_path == home %}
     <p class="small">Permalink: http://problemotd.com{{problem.get_absolute_url}}</p>
-    {% endif %}
     
     {% if comment_tree|length > 0 %}
     <button id="shcomments" type="button" class="btn btn-primary">
@@ -31,10 +29,9 @@
       <form id="postcomment" method="post" action="{{problem.get_absolute_url}}">
           <ul>
               {% if not request.user.is_authenticated %}
-                  <li><label for="id_name">{{form.name.label}}:</label> {{form.name}} <span class="about">(optional)</span></li>
-                  <li><label for="id_website">{{form.website.label}}:</label> {{form.website}} <span class="about">(optional)</span></li>
+                  <li><label for="id_name">{{form.name.label}}: <small><em>(optional)</em></small></label> {{form.name}}</li>
               {% endif %}
-              <li>{{form.text}}<div id="preview" class="comment"></div></li>
+              <li><label for="id_text">{{form.text.label}}:</label>{{form.text}}<div id="preview" class="comment"></div></li>
               <li><small><em><a href="https://help.github.com/articles/github-flavored-markdown" target="_blank">(Supports Github Flavored Markdown)</a></em></small></li>
               {% if html_captcha %}
                   <script type="text/javascript">
@@ -52,7 +49,9 @@
       <ul id="commenters">
           {% for comment in comment_tree %}
               <li id="{{comment.id}}" class="comment" style="margin-left:{{comment.indent}}em;">
-              {% if comment.user %}
+              {% if comment.deleted %}
+                  [Deleted] - {{comment.date|naturaltime}}<p>This comment was removed</p>
+              {% elif comment.user %}
                   <p class="poster">
                     <span class="user">
                       {% if comment.provider == 'github' %}
@@ -71,12 +70,19 @@
                   {{comment.text|safe}}
               {% elif comment.name %}
                   <p class="poster">{{comment.name}} - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
-              {% elif comment.deleted %}
-                  [Deleted] - {{comment.date|naturaltime}}<p>This comment was removed</p></li>
               {% else %}
                   <p class="poster">Anonymous - {{comment.date|naturaltime}}</p>{{comment.text|safe}}
               {% endif %}
-              <p class="helpers"><a href="" class="reply">reply</a> <a class="" href="http://problemotd.com{{problem.get_absolute_url}}?show=1#{{comment.id}}">permalink</a></p></li>
+              {% if not comment.deleted %}
+                <p class="helpers">
+                  <a href="" class="reply">reply</a>
+                  <a href="{{problem.get_absolute_url}}?show=1#{{comment.id}}">permalink</a>
+                  {% if request.user == comment.user or request.user.is_superuser %}
+                    <a class="delete" href="/delete/{{comment.id}}/">delete</a>
+                  {% endif %}
+                </p>
+              {% endif %}
+              </li>
           {% empty %}
               <li>There are currently no comments. You can be first!</li>
           {% endfor %}

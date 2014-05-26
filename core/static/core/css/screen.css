@@ -272,8 +272,7 @@ form {
 	}
 
 #postcomment label {
-	width: 74px;
-	display: inline-block;
+	display: block;
 }
 
 #postcomment textarea {
