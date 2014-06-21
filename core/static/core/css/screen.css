@@ -39,6 +39,7 @@ body {
 body {
   color: #fff;
   background: linear-gradient(to bottom, rgba(0,0,0,0.25) 0%,rgba(0,0,0,0) 10%); /* W3C */
+  font-family: Helvetica,Arial,sans-serif;
 }
 
 button, input, optgroup, select, textarea {
@@ -101,7 +102,7 @@ form {
 }
 
 .masthead span {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: Helvetica,Arial,sans-serif;
   font-size: 20px;
 }
 
