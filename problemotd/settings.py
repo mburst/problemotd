@@ -1,0 +1,199 @@
+'''
+Django settings for problemotd project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/1.6/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/1.6/ref/settings/
+'''
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+
+ENVIRONMENT = os.environ
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = ENVIRONMENT.get('SECRET_KEY', '_a+u72oii#)9p%&l4!@z66_815e1c7(7j892&k_oxjqoxxpq=9');
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = bool(ENVIRONMENT.get('DEBUG', True))
+
+TEMPLATE_DEBUG = DEBUG
+
+ALLOWED_HOSTS = []
+
+ADMINS = (
+    ('Max', ENVIRONMENT.get('EMAIL_USER')),
+)
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'core',
+    'djrill',
+    'compressor',
+    'social_auth',
+    #'debug_toolbar',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+)
+
+ROOT_URLCONF = 'problemotd.urls'
+
+WSGI_APPLICATION = 'problemotd.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'problemotd',
+            'USER': 'vagrant',
+            'PASSWORD': '',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+else:
+    import dj_database_url
+    DATABASES = {'default': dj_database_url.config()}
+    ALLOWED_HOSTS = ['problemotd.herokuapp.com', '.problemotd.com']
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.6/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'America/New_York'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+#COMPRESS_OFFLINE = True
+COMPRESS_ENABLED = False
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
+)
+
+#Recaptcha
+RECAPTCHA_PUBLIC_KEY = ENVIRONMENT.get('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = ENVIRONMENT.get('RECAPTCHA_PRIVATE_KEY', '')
+RECAPTCHA_ENABLED = True if RECAPTCHA_PUBLIC_KEY else False
+
+#Honeypot BlackList
+HTTPBL_KEY = ENVIRONMENT.get('HTTPBL_KEY')
+HTTPBL_ADDRESS = 'dnsbl.httpbl.org'
+HTTPBL_TL = 45  # Threat Level
+
+MANDRILL_API_KEY = ENVIRONMENT.get('MANDRILL_API_KEY', '')
+EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
+SERVER_EMAIL = 'no-reply@problemotd.com'
+
+if ENVIRONMENT.get('MEMCACHIER_SERVERS'):
+    ENVIRONMENT['MEMCACHE_SERVERS'] = ENVIRONMENT.get('MEMCACHIER_SERVERS', '').replace(',', ';')
+    ENVIRONMENT['MEMCACHE_USERNAME'] = ENVIRONMENT.get('MEMCACHIER_USERNAME', '')
+    ENVIRONMENT['MEMCACHE_PASSWORD'] = ENVIRONMENT.get('MEMCACHIER_PASSWORD', '')
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+            'LOCATION': ENVIRONMENT.get('MEMCACHIER_SERVERS', '').replace(',', ';'),
+            'TIMEOUT': 60,
+            'BINARY': True,
+            'OPTIONS': {
+                'tcp_nodelay': True
+            }
+        }
+    }
+else:
+    CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        }
+    }
+
+#Authentication
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.contrib.github.GithubBackend',
+    #'social_auth.backends.contrib.bitbucket.BitbucketBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+GITHUB_APP_ID = ENVIRONMENT.get('GITHUB_APP_ID', '')
+GITHUB_API_SECRET = ENVIRONMENT.get('GITHUB_API_SECRET', '')
+GITHUB_EXTENDED_PERMISSIONS = ['user:email']
+#BITBUCKET_CONSUMER_KEY = ENVIRONMENT.get('BITBUCKET_CONSUMER_KEY', '')
+#BITBUCKET_CONSUMER_SECRET = ENVIRONMENT.get('BITBUCKET_CONSUMER_SECRET', '')
+
+LOGIN_URL          = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL    = '/login/'
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'Problem Master'
+SOCIAL_AUTH_UUID_LENGTH = 8
+SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
+SOCIAL_AUTH_SANITIZE_REDIRECTS = False
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    #'social_auth.backends.pipeline.associate.associate_by_email',
+    'core.user.get_username',
+    'core.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details'
+)
+#INTERNAL_IPS = ('127.0.0.1', '10.0.2.2')
+
+try:
+    from local_settings import *
+except ImportError as e:
+    pass
