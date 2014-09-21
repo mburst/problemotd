@@ -60,6 +60,10 @@ $(document).ready(function(){
         }
     });
     
+    $("#postcomment").on('submit', function(e){
+        $(this).find("#id_password").val('potd');
+    })
+    
     $("#shcomments").on('click', function(){
         $("#comments").toggle(1000);
     });
