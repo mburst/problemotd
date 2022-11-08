@@ -11,20 +11,15 @@ from django.utils.http import is_safe_url
 from core.models import *
 from core.forms import *
 from datetime import date
-from recaptcha.client import captcha
 import socket
 import misaka
 
 
 def save_comment(request, form, problem):
-    pass_captcha = True
-    if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
-        check_captcha = captcha.submit(request.POST.get('recaptcha_challenge_field'), request.POST.get('recaptcha_response_field'), settings.RECAPTCHA_PRIVATE_KEY, request.META['REMOTE_ADDR'])
-        if check_captcha.is_valid is False:
-            pass_captcha = False
-            html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY, error=check_captcha.error_code)
+    if request.user.is_anonymous():
+        return False
 
-    if form.is_valid() and pass_captcha:
+    if form.is_valid():
         form2 = form.save(commit=False)
         form2.text = misaka.html(form2.text, extensions=misaka.EXT_NO_INTRA_EMPHASIS | misaka.EXT_TABLES | misaka.EXT_FENCED_CODE | misaka.EXT_AUTOLINK | misaka.EXT_STRIKETHROUGH | misaka.EXT_SPACE_HEADERS | misaka.EXT_SUPERSCRIPT, render_flags=misaka.HTML_ESCAPE)
         if form['ancestor'].value() == '':
@@ -77,10 +72,7 @@ def save_comment(request, form, problem):
         messages.success(request, 'Thanks for commenting!')
         return True
     else:
-        if pass_captcha is False:
-            messages.error(request, 'Incorrect captcha. Please try again.')
-        else:
-            messages.error(request, 'There was a problem submitting your comment. Please try again.')
+        messages.error(request, 'There was a problem submitting your comment. Please try again.')
 
     return False
 
@@ -113,16 +105,11 @@ def home(request):
             if request.user.is_anonymous():
                 form = CommentForm(initial={'name': form.data['name']})
 
-    #Users don't need to pass a captcha
-    html_captcha = ''
-    if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
-        html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
     comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path').extra(select={'provider': 'SELECT provider FROM social_auth_usersocialauth WHERE social_auth_usersocialauth.user_id = core_comment.user_id'})
 
     return render(request, 'core/home.html', {'problem': problem,
                                               'comment_tree': comment_tree,
                                               'form': form,
-                                              'html_captcha': html_captcha,
                                               'request': request,
                                               'show_comments': show_comments})
 
@@ -140,16 +127,11 @@ def problem(request, slug=None):
             if request.user.is_anonymous():
                 form = CommentForm(initial={'name': form.data['name']})
 
-    #Users don't need to pass a captcha
-    html_captcha = ''
-    if request.user.is_anonymous() and settings.RECAPTCHA_ENABLED:
-        html_captcha = captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
     comment_tree = Comment.objects.select_related('user').filter(problem=problem, spam=False).order_by('path').extra(select={'provider': 'SELECT provider FROM social_auth_usersocialauth WHERE social_auth_usersocialauth.user_id = core_comment.user_id'})
 
     return render(request, 'core/home.html', {'problem': problem,
                                               'comment_tree': comment_tree,
                                               'form': form,
-                                              'html_captcha': html_captcha,
                                               'request': request,
                                               'show_comments': show_comments})
 
@@ -219,7 +201,6 @@ def confirm_email(request):
 def update_subscription(request):
     try:
         md_email = request.GET.get('md_email')
-        print md_email
         subscriber = Subscriber.objects.get(email=md_email)
     except:
         messages.error(request, 'Unable to unsubscribe. Please click the link from your e-mail')

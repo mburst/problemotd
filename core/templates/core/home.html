@@ -33,14 +33,6 @@
               {% endif %}
               <li><label for="id_text">{{form.text.label}}:</label>{{form.text}}<div id="preview" class="comment"></div></li>
               <li><small><em><a href="https://help.github.com/articles/github-flavored-markdown" target="_blank">(Supports Github Flavored Markdown)</a></em></small></li>
-              {% if html_captcha %}
-                  <script type="text/javascript">
-                  var RecaptchaOptions = {
-                     theme : 'white'
-                  };
-                  </script>
-                <li>{{html_captcha|safe}}</li>
-              {% endif %}
               {{form.password}}
               <li><input class="btn btn-info preview" type="button" value="Preview Comment" /> <input class="btn btn-default" type="submit" value="Submit Comment" /></li>
               <li>{{form.ancestor}}</li>

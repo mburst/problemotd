@@ -49,7 +49,6 @@ def get_username(details, user=None,
 def create_user(backend, details, response, uid, username, user=None, *args,
                 **kwargs):
     """Create user. Depends on get_username pipeline."""
-    print user
     if user:
         return {'user': user}
     if not username:

@@ -1,9 +1,7 @@
 from django.contrib import admin
-from django.db.models import get_models, get_app
+from django.apps import apps
+#Registers all models to admin interface https://stackoverflow.com/a/30064494/1907292
+app = apps.get_app_config('core')
 
-#Registers all models to admin interface http://djangosnippets.org/snippets/2066/
-for model in get_models(get_app('core')):
-    try:
-        admin.site.register(model)
-    except:
-        pass
+for model_name, model in app.models.items():
+    admin.site.register(model)

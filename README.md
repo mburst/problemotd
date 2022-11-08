@@ -6,7 +6,7 @@ You'll need to have python installed. My development environment has 2.7 but I b
 
 ```
 pip install -r requirements.txt
-python manage.py syncdb
+python manage.py migrate
 ```
 
 Create a user account when prompted to do so.
@@ -16,6 +16,7 @@ You can login at /admin (the login on the homepage doesn't work with Django auth
 ```
 python manage.py runserver
 #or
+python manage.py collectstatic --noinput
 python tornadows.py --port 8000
 ```
 
