@@ -134,8 +134,8 @@ EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
 SERVER_EMAIL = 'no-reply@problemotd.com'
 
 CACHES = {
-'default': {
-    'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 
@@ -160,6 +160,7 @@ SOCIAL_AUTH_DEFAULT_USERNAME = 'Problem Master'
 SOCIAL_AUTH_UUID_LENGTH = 8
 SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
 SOCIAL_AUTH_SANITIZE_REDIRECTS = False
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_user',
