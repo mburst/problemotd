@@ -1,14 +1,10 @@
-from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
-admin.autodiscover()
+from django.contrib.auth import views as auth_views
+from django.urls import include, path
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'problemotd.views.home', name='home'),
-    url(r'^', include('core.urls')),
-    url(r'', include('social_django.urls', namespace='social')),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
-
-    url(r'^admin/', include(admin.site.urls)),
-)
+urlpatterns = [
+    path("", include("core.urls")),
+    path("", include("social_django.urls", namespace="social")),
+    path("logout/", auth_views.LogoutView.as_view(next_page="/"), name="logout"),
+    path("admin/", admin.site.urls),
+]
