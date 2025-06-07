@@ -28,14 +28,12 @@ class Problem(models.Model):
         return self.title + "-" + str(self.date)
 
     def get_absolute_url(self):
-        return reverse("core.views.problem", args=[self.slug])
+        return reverse("problem", args=[self.slug])
 
 
 class ProblemSuggestion(models.Model):
     text = models.TextField()
-    problem = models.ForeignKey(
-        Problem, null=True, on_delete=models.CASCADE
-    )
+    problem = models.ForeignKey(Problem, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
@@ -46,9 +44,7 @@ class Comment(models.Model):
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    user = models.ForeignKey(
-        User, null=True, on_delete=models.CASCADE
-    )
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, blank=True)
     website = models.URLField(blank=True)
     spam = models.BooleanField(default=False)

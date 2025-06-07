@@ -195,7 +195,7 @@ def confirm_email(request):
     subscriber.status = ''
     subscriber.save()
     messages.success(request, "You're e-mail has been confirmed. Thanks for subscribing!")
-    return redirect('core.views.home')
+    return redirect('home')
 
 
 def update_subscription(request):
@@ -204,18 +204,18 @@ def update_subscription(request):
         subscriber = Subscriber.objects.get(email=md_email)
     except:
         messages.error(request, 'Unable to unsubscribe. Please click the link from your e-mail')
-        return redirect('core.views.home')
+        return redirect('home')
     if request.method == 'POST':
         unsub = request.POST.get('unsub')
         if unsub:
             subscriber.delete()
             messages.success(request, 'Successfully unsubscribed')
-            return redirect('core.views.home')
+            return redirect('home')
         else:
             subscriber.weekly = not subscriber.weekly
             subscriber.save()
             messages.success(request, 'Subscription successfully updated')
-            return redirect('core.views.home')
+            return redirect('home')
     else:
         md_email = request.GET.get('md_email')
         return render(request, 'core/update_subscription.html', {'md_email': md_email, 'weekly': subscriber.weekly})
@@ -226,8 +226,8 @@ def login(request):
         if request.user.is_authenticated():
             return redirect(request.GET.get('next', '/'))
         return render(request, 'core/login.html', {'next': request.GET.get('next', '/')})
-    return redirect('core.views.home')
+    return redirect('home')
     
 def logout(request):
     logout(request)
-    return redirect('core.views.home')
+    return redirect('home')
